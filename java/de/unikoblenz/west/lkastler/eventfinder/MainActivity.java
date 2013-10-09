@@ -15,6 +15,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 
 /**
  * this is the main activity of the EventFinder project.
@@ -46,8 +47,23 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+    
 
-    @Override
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.load_data:
+			importData("data.json");
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
     public void onBackPressed() {
     	if( getFragmentManager().getBackStackEntryCount() > 0) {
     		super.onBackPressed();
