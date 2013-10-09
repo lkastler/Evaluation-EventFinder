@@ -43,14 +43,12 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
     public List<Event> getEvents() {
         Log.d(TAG, "get all events");
 
-        String query = "select * from " + TABLE;
-
         LinkedList<Event> result = new LinkedList<Event>();
 
         SQLiteDatabase db = opener.getReadableDatabase();
 
         try {
-            Cursor cur = db.rawQuery("select * from ?", new String[] {TABLE});
+            Cursor cur = db.rawQuery("select * from " + TABLE, null);
 
             while(cur.moveToNext()) {
                 result.add(new Event(
@@ -68,10 +66,6 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
         finally {
             db.close();
         }
-
-
-
-
         
         return result;
     }

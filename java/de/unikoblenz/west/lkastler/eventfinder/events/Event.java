@@ -102,4 +102,11 @@ public class Event {
     public long getLongitude() {
         return longitude;
     }
+
+	@Override
+	public String toString() {
+		return "Event[title=" + title + ", artists=" + artists +", venue=" + venue + ", start=" + start + ", end=" + end + ", lat="+ latitude + ", lng=" + longitude + "]";
+	}
+    
+    
 }
