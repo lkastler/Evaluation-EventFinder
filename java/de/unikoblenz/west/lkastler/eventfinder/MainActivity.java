@@ -47,8 +47,6 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    
-
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
@@ -97,6 +95,8 @@ public class MainActivity extends Activity {
     	SQLiteDatabaseImporter importer = new SQLiteDatabaseImporter(getApplicationContext());
     	try {
 			importer.importEvents(fileName);
+			
+			
 		} catch (Exception e) {
 			Log.e(TAG, "error during data import", e);
 		}
