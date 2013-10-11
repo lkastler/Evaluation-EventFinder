@@ -23,7 +23,7 @@ public class SQLiteDatabaseOpener extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "create table " + SQLiteDatabaseHandler.TABLE + "(" +
+        String query = "create virtual table " + SQLiteDatabaseHandler.TABLE + " using fts4 (" +
                 SQLiteDatabaseHandler.ID + " integer," +
                 SQLiteDatabaseHandler.TITLE + " string," +
                 SQLiteDatabaseHandler.START + " integer," +

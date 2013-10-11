@@ -4,5 +4,11 @@
     <string name="app_name">EventFinder</string>
     <string name="start_search">Und los</string>
     <string name="load_data">Load data</string>
+    <string name="location">Ort</string>
+    <string name="point_in_time">Zeitpunkt</string>
+    <string name="time_frame">Zeitraum</string>
+    <string name="category">Kategorie</string>
+    <string name="now">Jetzt</string>
+    <string name="hint_search">Suche nach ...</string>
 
 </resources>

@@ -6,10 +6,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import de.unikoblenz.west.lkastler.eventfinder.events.Event;
+import de.unikoblenz.west.lkastler.eventfinder.fragments.Configuration;
 
 /**
  * SQLite Database for Events.
@@ -43,12 +46,43 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
     public List<Event> getEvents() {
         Log.d(TAG, "get all events");
 
-        LinkedList<Event> result = new LinkedList<Event>();
+        return queryDB("select * from " + TABLE, null);
+    }
+
+    @Override
+    public List<Event> findEvents(Bundle bundle) {
+        Log.d(TAG, "get events that meet: " + bundle);
+
+        String[] tokens = bundle.getCharSequence(Configuration.SEARCH_PHRASE).toString().split(" ");
+        
+        List<String> list = Arrays.asList(tokens);
+        
+        Iterator<String> it = list.iterator();
+        
+        StringBuffer b = new StringBuffer("'");
+        
+        while(it.hasNext()) {
+        	String s = it.next();
+        
+        	b.append(s);
+        	
+        	
+        	if(it.hasNext()) b.append(" ");
+        }
+        b.append("'");
+        
+        return queryDB("select * from " + TABLE + " where " + TABLE + " match ?", new String[] {b.toString()});
+    }
+    
+    private List<Event> queryDB(String query, String[] items) {
+        Log.d(TAG, "q=" +query + ", i=" + Arrays.toString(items));
+    	
+    	LinkedList<Event> result = new LinkedList<Event>();
 
         SQLiteDatabase db = opener.getReadableDatabase();
 
         try {
-            Cursor cur = db.rawQuery("select * from " + TABLE, null);
+            Cursor cur = db.rawQuery(query, items);
 
             while(cur.moveToNext()) {
                 result.add(new Event(
@@ -68,13 +102,5 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
         }
         
         return result;
-    }
-
-    @Override
-    public List<Event> findEvents(Bundle bundle) {
-        Log.d(TAG, "get events that meet: " + bundle);
-
-        // TODO: implement findEvents.
-        throw new UnsupportedOperationException();
     }
 }

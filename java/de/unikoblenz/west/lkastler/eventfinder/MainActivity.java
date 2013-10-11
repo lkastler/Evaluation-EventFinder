@@ -109,4 +109,8 @@ public class MainActivity extends Activity {
     public List<Event> getEvents() {
     	return handler.getEvents();
     }
+    
+    public List<Event> findEvents(Bundle bundle) {
+        return handler.findEvents(bundle);
+    }
 }
