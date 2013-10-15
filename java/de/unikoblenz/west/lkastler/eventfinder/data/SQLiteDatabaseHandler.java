@@ -32,6 +32,8 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
     static final String LNG = "longitude";
     static final String ARTISTS = "artists";
     static final String VENUE = "venue";
+    static final String LOCATION = "location";
+    static final String CATEGORY = "category";
 
     protected SQLiteDatabaseOpener opener;
 
@@ -93,7 +95,9 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
                         cur.getLong(cur.getColumnIndex(START)),
                         cur.getLong(cur.getColumnIndex(END)),
                         cur.getLong(cur.getColumnIndex(LAT)),
-                        cur.getLong(cur.getColumnIndex(LNG))
+                        cur.getLong(cur.getColumnIndex(LNG)),
+                        cur.getString(cur.getColumnIndex(CATEGORY)),
+                        cur.getString(cur.getColumnIndex(LOCATION))
                 ));
             }
         }
@@ -103,4 +107,49 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
         
         return result;
     }
+
+	@Override
+	public List<String> getCategories() {
+		LinkedList<String> categories = new LinkedList<String>();
+		
+		SQLiteDatabase db = opener.getReadableDatabase();
+		
+		try {
+			Cursor cur = db.rawQuery("select distinct " + CATEGORY + " from " + TABLE, new String[0]);
+			
+			while(cur.moveToNext()) {
+				categories.add(cur.getString(cur.getColumnIndex(CATEGORY)));
+			}
+		}
+		finally {
+			db.close();
+		}
+		
+		return categories;
+	}
+
+	@Override
+	public List<String> getLocations() {
+		LinkedList<String> locations = new LinkedList<String>();
+		
+		SQLiteDatabase db = opener.getReadableDatabase();
+		
+		try {
+			Cursor cur = db.rawQuery("select distinct " + LOCATION + " from " + TABLE, new String[0]);
+			
+			Log.d(TAG, "lines: " +  cur.getCount());
+			
+			while(cur.moveToNext()) {
+				Log.d(TAG, "lines: " +  cur.getString(cur.getColumnIndex(LOCATION)));
+				
+				locations.add(cur.getString(cur.getColumnIndex(LOCATION)));
+			}
+		}
+		finally {
+			db.close();
+		}
+		
+		Log.d(TAG, "locations: " +  locations.toString());
+		return locations;
+	}
 }

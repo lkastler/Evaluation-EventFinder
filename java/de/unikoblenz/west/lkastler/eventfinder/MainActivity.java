@@ -95,8 +95,7 @@ public class MainActivity extends Activity {
     	SQLiteDatabaseImporter importer = new SQLiteDatabaseImporter(getApplicationContext());
     	try {
 			importer.importEvents(fileName);
-			
-			
+
 		} catch (Exception e) {
 			Log.e(TAG, "error during data import", e);
 		}
@@ -112,5 +111,13 @@ public class MainActivity extends Activity {
     
     public List<Event> findEvents(Bundle bundle) {
         return handler.findEvents(bundle);
+    }
+    
+    public List<String> getCategories() {
+    	return handler.getCategories();
+    }
+    
+    public List<String> getLocations() {
+    	return handler.getLocations();
     }
 }

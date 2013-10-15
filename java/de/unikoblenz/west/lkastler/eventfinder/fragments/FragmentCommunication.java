@@ -5,5 +5,10 @@ public interface FragmentCommunication {
 	public String SEARCH_PHRASE = "searchphrase";
 	public String LOCATION = "location";
 	public String CATEGORY = "category";
-	public String TIMEFRAME = "timeframe"; 
+	public String TIMEFRAME = "timeframe";
+	public String POINTINTIME = "pointintime";
+	
+	public String TIMEPICKER = "timepicker";
+	public String DATEPICKER = "datepicker";
+	
 }

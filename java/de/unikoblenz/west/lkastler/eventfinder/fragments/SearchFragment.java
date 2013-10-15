@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.util.Calendar;
 
 import android.app.Fragment;
+import android.app.TimePickerDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,9 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import de.unikoblenz.west.lkastler.eventfinder.MainActivity;
 import de.unikoblenz.west.lkastler.eventfinder.R;
@@ -21,23 +27,38 @@ import de.unikoblenz.west.lkastler.eventfinder.R;
 /**
  * Created by lkastler on 9/5/13.
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
 	public static final String TAG = "SEARCH";
 	
 	private final DateFormat df = DateFormat.getDateInstance();
 	private final DateFormat tf = DateFormat.getTimeInstance();
 	
-	private Calendar cal;
+	private Calendar cal  = Calendar.getInstance();;
+	private TimePickerFragment timePicker;
+	private DatePickerFragment datePicker;
 	
 	private View v;
 	
 	private EditText search;
-	private EditText location;
+	private AutoCompleteTextView location;
 	private Spinner category;
 	private Spinner timeFrame;
 	
-    @Override
+    public SearchFragment() {
+		super();
+		
+		timePicker = new TimePickerFragment();
+		timePicker.setCalendar(cal);
+		timePicker.setListener(this);
+		
+		datePicker = new DatePickerFragment();
+		datePicker.setCalendar(cal);
+		datePicker.setListener(this);
+		
+	}
+
+	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.search, container, false);
 
@@ -45,13 +66,33 @@ public class SearchFragment extends Fragment {
         search = (EditText) v.findViewById(R.id.text_search);
 
         // location
-        location = (EditText) v.findViewById(R.id.text_location);
+        location = (AutoCompleteTextView) v.findViewById(R.id.text_location);
+        location.setAdapter(new ArrayAdapter<String>(getActivity(),
+        		android.R.layout.simple_spinner_dropdown_item, 
+        		((MainActivity)getActivity()).getLocations()
+        	));
         
-        // point in time
-        cal = Calendar.getInstance();
-
         // date & time
         updateDate();
+
+        Button timeButton = (Button) v.findViewById(R.id.button_time);
+        timeButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				timePicker.show(getFragmentManager(), FragmentCommunication.TIMEPICKER);
+			}
+        });
+        
+        Button dateButton = (Button) v.findViewById(R.id.button_date);
+        dateButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				datePicker.show(getFragmentManager(), FragmentCommunication.DATEPICKER);
+			}
+        });
+        
         
         // now
         Button nowButton = (Button) v.findViewById(R.id.button_now);
@@ -70,6 +111,10 @@ public class SearchFragment extends Fragment {
         
         // category
         category = (Spinner) v.findViewById(R.id.spinner_category);
+        category.setAdapter(new ArrayAdapter<String>(getActivity(),
+        		android.R.layout.simple_spinner_dropdown_item, 
+        		((MainActivity)getActivity()).getCategories()
+        	));
         
         // search button
         Button b = (Button) v.findViewById(R.id.search_button);
@@ -103,6 +148,7 @@ public class SearchFragment extends Fragment {
     	intent.putExtra(FragmentCommunication.SEARCH_PHRASE, search.getText());
     	intent.putExtra(FragmentCommunication.LOCATION, location.getText());
     	intent.putExtra(FragmentCommunication.CATEGORY, (String)category.getSelectedItem());
+    	intent.putExtra(FragmentCommunication.POINTINTIME, cal);
     	intent.putExtra(FragmentCommunication.TIMEFRAME, (long)getActivity().getResources().getIntArray(R.array.time_frame_values)[timeFrame.getSelectedItemPosition()]);
     }
     
@@ -114,4 +160,26 @@ public class SearchFragment extends Fragment {
         Button timeButton = (Button) v.findViewById(R.id.button_time);
         timeButton.setText(tf.format(cal.getTime()));
     }
+
+	@Override
+	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+		Log.d(TAG, "set time:" + hourOfDay + ":" + minute);
+		
+		cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+		cal.set(Calendar.MINUTE, minute);
+		
+		updateDate();
+	}
+
+	@Override
+	public void onDateSet(DatePicker view, int year, int monthOfYear,
+			int dayOfMonth) {
+		Log.d(TAG, "set date:" + year + "-" + monthOfYear + "-" + dayOfMonth);
+		
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, monthOfYear);
+		cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+		
+		updateDate();
+	}
 }

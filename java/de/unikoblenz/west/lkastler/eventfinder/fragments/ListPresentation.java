@@ -38,13 +38,9 @@ public class ListPresentation extends ListFragment implements UpdatablePresentat
     }
     
     private List<Event> loadData() {
-    	CharSequence search_phrase = getActivity().getIntent().getExtras().getCharSequence(FragmentCommunication.SEARCH_PHRASE,"");
-    	Log.d(TAG, "searchphrase=" + search_phrase);
-    
-    	long timeframe = getActivity().getIntent().getExtras().getLong(FragmentCommunication.TIMEFRAME, 0);
-    	Log.d(TAG, "timeframe=" + timeframe);
+    	Log.d(TAG, "loading data: " + getActivity().getIntent().getExtras());
     	
-    	MainActivity main = (MainActivity)getActivity();
+        MainActivity main = (MainActivity)getActivity();
     	    	
     	return main.findEvents(getActivity().getIntent().getExtras());
     }

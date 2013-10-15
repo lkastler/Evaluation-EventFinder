@@ -50,18 +50,21 @@
             android:id="@+id/button_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="showDatePicker"
             android:text="@string/now" />
 
         <Button
             android:id="@+id/button_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="showTimePicker"
             android:text="@string/now" />
 
         <Button
             android:id="@+id/button_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="setNow"
             android:text="@string/now" />
 
     </LinearLayout>

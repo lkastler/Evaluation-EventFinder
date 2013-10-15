@@ -15,6 +15,8 @@ public class Event {
     private long end;
     private long latitude;
     private long longitude;
+    private String category;
+    private String location;
 
     /**
      * constructor
@@ -27,8 +29,10 @@ public class Event {
      * @param end - end time of the event.
      * @param latitude - latitude of event.
      * @param longitude - longitude of events.
+     * @param category - the category of this event.
+     * @param location - the location of this event, like suburb.
      */
-    public Event(int id, String title, String artists, String venue, long start, long end, long latitude, long longitude) {
+    public Event(int id, String title, String artists, String venue, long start, long end, long latitude, long longitude, String category, String location) {
         this.id = id;
         this.title = title;
         this.artists = artists;
@@ -37,6 +41,8 @@ public class Event {
         this.end = end;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.category = category;
+        this.location = location;
     }
 
     /**
@@ -103,10 +109,20 @@ public class Event {
         return longitude;
     }
 
-	@Override
-	public String toString() {
-		return "Event[title=" + title + ", artists=" + artists +", venue=" + venue + ", start=" + start + ", end=" + end + ", lat="+ latitude + ", lng=" + longitude + "]";
+
+    /**
+     * returns the category of this Event.
+     * @return the category of this Event.
+     */
+	public String getCategory() {
+		return category;
 	}
-    
-    
+
+	/**
+	 * returns the location of this Event.
+	 * @return the location of this Event.
+	 */
+	public String getLocation() {
+		return location;
+	}
 }

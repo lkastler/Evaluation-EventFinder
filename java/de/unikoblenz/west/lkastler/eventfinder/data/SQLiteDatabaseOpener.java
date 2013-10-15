@@ -32,6 +32,8 @@ public class SQLiteDatabaseOpener extends SQLiteOpenHelper {
                 SQLiteDatabaseHandler.LNG + " integer," +
                 SQLiteDatabaseHandler.ARTISTS + " string," +
                 SQLiteDatabaseHandler.VENUE + " string," +
+                SQLiteDatabaseHandler.CATEGORY + " string," +
+                SQLiteDatabaseHandler.LOCATION + " string," +
                 "primary key(" + SQLiteDatabaseHandler.ID + ")" +
                 ")";
         Log.d(TAG, query);

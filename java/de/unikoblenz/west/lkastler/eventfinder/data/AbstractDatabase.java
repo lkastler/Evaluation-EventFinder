@@ -31,4 +31,17 @@ abstract public class AbstractDatabase {
      * @return all events in this Database that meet the information in given Bundle.
      */
     abstract public List<Event> findEvents(Bundle bundle);
+    
+    /**
+     * returns all categories for events in this Database.
+     * @return all categories for events in this Database.
+     */
+    abstract public List<String> getCategories();
+    
+
+    /**
+     * returns all locations for events in this Database.
+     * @return all locations for events in this Database.
+     */
+    abstract public List<String> getLocations();
 }

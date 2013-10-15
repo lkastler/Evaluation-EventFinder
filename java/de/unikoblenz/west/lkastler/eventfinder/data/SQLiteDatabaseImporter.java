@@ -79,6 +79,8 @@ public class SQLiteDatabaseImporter {
 				vals.put(SQLiteDatabaseHandler.END, ev.getEnd());
 				vals.put(SQLiteDatabaseHandler.LAT, ev.getLatitude());
 				vals.put(SQLiteDatabaseHandler.LNG, ev.getLongitude());
+				vals.put(SQLiteDatabaseHandler.CATEGORY, ev.getCategory());
+				vals.put(SQLiteDatabaseHandler.LOCATION, ev.getLocation());
 				
 				Log.d(TAG, "adding: " + vals.toString());
 				
