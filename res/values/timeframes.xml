@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="time_frame_names">
+        <item >1 Tag</item>
+        <item >2 Tage</item>
+    </string-array>
+    <integer-array name="time_frame_values">
+        <item >8640000</item>
+        <item >17280000</item>
+    </integer-array>
+</resources>

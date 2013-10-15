@@ -69,6 +69,13 @@
      <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
+
+         <Spinner
+             android:id="@+id/Spinner01"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:entries="@array/time_frame_names" />
         
         <TextView
             android:id="@+id/label_time_frame"
@@ -78,9 +85,11 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
         
     	<Spinner
-	        android:id="@+id/spinner_time_frame"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content" />
+    	    android:id="@+id/spinner_time_frame"
+    	    android:layout_width="match_parent"
+    	    android:layout_height="wrap_content"
+    	    android:entries="@array/time_frame_names" />
+
 	</LinearLayout>
 	
      <LinearLayout

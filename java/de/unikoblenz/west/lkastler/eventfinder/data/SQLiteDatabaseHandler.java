@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.unikoblenz.west.lkastler.eventfinder.events.Event;
-import de.unikoblenz.west.lkastler.eventfinder.fragments.Configuration;
+import de.unikoblenz.west.lkastler.eventfinder.fragments.FragmentCommunication;
 
 /**
  * SQLite Database for Events.
@@ -53,7 +53,7 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
     public List<Event> findEvents(Bundle bundle) {
         Log.d(TAG, "get events that meet: " + bundle);
 
-        String[] tokens = bundle.getCharSequence(Configuration.SEARCH_PHRASE).toString().split(" ");
+        String[] tokens = bundle.getCharSequence(FragmentCommunication.SEARCH_PHRASE).toString().split(" ");
         
         List<String> list = Arrays.asList(tokens);
         
