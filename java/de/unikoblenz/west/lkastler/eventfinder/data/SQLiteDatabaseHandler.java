@@ -4,12 +4,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import de.unikoblenz.west.lkastler.eventfinder.events.Event;
 import de.unikoblenz.west.lkastler.eventfinder.fragments.FragmentCommunication;
@@ -55,25 +56,48 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
     public List<Event> findEvents(Bundle bundle) {
         Log.d(TAG, "get events that meet: " + bundle);
 
-        String[] tokens = bundle.getCharSequence(FragmentCommunication.SEARCH_PHRASE).toString().split(" ");
+        LinkedList<QueryElement> qe = new LinkedList<QueryElement>();
         
-        List<String> list = Arrays.asList(tokens);
+        LinkedList<String> queries = new LinkedList<String>();
+        LinkedList<String> items = new LinkedList<String>();
+
+        // create query items
+        qe.add(evalSearchPhrase(bundle.getCharSequence(FragmentCommunication.SEARCH_PHRASE).toString()));
+        qe.add(evalLocation(bundle.getCharSequence(FragmentCommunication.LOCATION).toString()));
         
-        Iterator<String> it = list.iterator();
-        
-        StringBuffer b = new StringBuffer("'");
-        
-        while(it.hasNext()) {
-        	String s = it.next();
-        
-        	b.append(s);
-        	
-        	
-        	if(it.hasNext()) b.append(" ");
+        // create query list and items list
+        for(QueryElement q: qe) {
+        	if(q != null) {
+        		queries.add(q.query);
+        		items.addAll(Arrays.asList(q.items));
+        	}
         }
-        b.append("'");
         
-        return queryDB("select * from " + TABLE + " where " + TABLE + " match ?", new String[] {b.toString()});
+        // produce query & items for db query
+        String q = "select * from " + TABLE + (queries.size() > 0 ? (" where " + TextUtils.join(" AND ", queries)) : "");
+        return queryDB(q, items.toArray(new String[0]));
+    }
+    
+    private QueryElement evalSearchPhrase(String searchPhrase) {
+    	if(searchPhrase == null || searchPhrase.equals("") || searchPhrase.equals(" ")) {
+    		return null; 
+    	}
+    	
+    	return new QueryElement(
+    			TABLE + " match ?",
+    			new String[]{"'" + searchPhrase.toLowerCase(Locale.getDefault()).trim() + "'"}
+    		);
+    }
+    
+    private QueryElement evalLocation(String location) {
+    	if(location == null || location.equals("") || location.equals(" ")) {
+    		return null;
+    	}
+    	
+    	return new QueryElement(
+    			LOCATION + " match ?",
+    			new String[] {"'" + TextUtils.join(" OR ", location.toLowerCase(Locale.getDefault()).trim().split(" ")) + "'"}
+    		);
     }
     
     private List<Event> queryDB(String query, String[] items) {
@@ -88,16 +112,16 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
 
             while(cur.moveToNext()) {
                 result.add(new Event(
-                        cur.getInt(cur.getColumnIndex(ID)),
-                        cur.getString(cur.getColumnIndex(TITLE)),
-                        cur.getString(cur.getColumnIndex(ARTISTS)),
-                        cur.getString(cur.getColumnIndex(VENUE)),
-                        cur.getLong(cur.getColumnIndex(START)),
-                        cur.getLong(cur.getColumnIndex(END)),
-                        cur.getLong(cur.getColumnIndex(LAT)),
-                        cur.getLong(cur.getColumnIndex(LNG)),
-                        cur.getString(cur.getColumnIndex(CATEGORY)),
-                        cur.getString(cur.getColumnIndex(LOCATION))
+                    cur.getInt(cur.getColumnIndex(ID)),
+                    cur.getString(cur.getColumnIndex(TITLE)),
+                    cur.getString(cur.getColumnIndex(ARTISTS)),
+                    cur.getString(cur.getColumnIndex(VENUE)),
+                    cur.getLong(cur.getColumnIndex(START)),
+                    cur.getLong(cur.getColumnIndex(END)),
+                    cur.getLong(cur.getColumnIndex(LAT)),
+                    cur.getLong(cur.getColumnIndex(LNG)),
+                    cur.getString(cur.getColumnIndex(CATEGORY)),
+                    cur.getString(cur.getColumnIndex(LOCATION))
                 ));
             }
         }
@@ -151,5 +175,24 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
 		
 		Log.d(TAG, "locations: " +  locations.toString());
 		return locations;
+	}
+	
+	/**
+	 * helper class to ease the query creation by defining sub queries
+	 * @author lkastler
+	 */
+	private class QueryElement {
+		private String query;
+		private String[] items;
+		
+		/**
+		 * constructor
+		 * @param query - sub query
+		 * @param items - items related to the sub query
+		 */
+		QueryElement(String query, String[] items) {
+			this.query = query;
+			this.items = items;
+		}
 	}
 }
