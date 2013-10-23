@@ -83,9 +83,11 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
     		return null; 
     	}
     	
+    	String[] tokens = searchPhrase.toLowerCase(Locale.getDefault()).trim().split(" ");
+    	
     	return new QueryElement(
     			TABLE + " match ?",
-    			new String[]{"'" + searchPhrase.toLowerCase(Locale.getDefault()).trim() + "'"}
+    			new String[]{"'*" + TextUtils.join("* *", tokens) + "*'"}
     		);
     }
     
@@ -135,6 +137,7 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
 	@Override
 	public List<String> getCategories() {
 		LinkedList<String> categories = new LinkedList<String>();
+		categories.add("");		
 		
 		SQLiteDatabase db = opener.getReadableDatabase();
 		
