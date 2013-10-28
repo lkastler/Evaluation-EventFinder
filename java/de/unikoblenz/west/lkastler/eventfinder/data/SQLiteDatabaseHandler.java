@@ -64,6 +64,9 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
         // create query items
         qe.add(evalSearchPhrase(bundle.getCharSequence(FragmentCommunication.SEARCH_PHRASE).toString()));
         qe.add(evalLocation(bundle.getCharSequence(FragmentCommunication.LOCATION).toString()));
+        qe.add(evalCategory(bundle.getCharSequence(FragmentCommunication.CATEGORY).toString()));
+        qe.add(evalTime(bundle.getLong(FragmentCommunication.POINTINTIME), 
+        		bundle.getLong(FragmentCommunication.POINTINTIME) + bundle.getLong(FragmentCommunication.TIMEFRAME)));
         
         // create query list and items list
         for(QueryElement q: qe) {
@@ -98,7 +101,29 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
     	
     	return new QueryElement(
     			LOCATION + " match ?",
-    			new String[] {"'" + TextUtils.join(" OR ", location.toLowerCase(Locale.getDefault()).trim().split(" ")) + "'"}
+    			new String[] {"'*" + TextUtils.join("* OR *", location.toLowerCase(Locale.getDefault()).trim().split(" ")) + "*'"}
+    		);
+    }
+    
+    private QueryElement evalCategory(String category) {
+    	if(category == null || "".equals(category) || " ".equalsIgnoreCase(category)) {
+    		return null;
+    	}
+    	
+    	return new QueryElement(
+				CATEGORY + " match ?",
+				new String[]{"'*" + TextUtils.join("* OR *", category.toLowerCase(Locale.getDefault()).trim().split(" ")) + "*'"}
+			);
+    }
+    
+    private QueryElement evalTime(long start, long end) {
+    	if(start == 0) {
+    		return null;
+    	}
+    	
+    	return new QueryElement(
+    			"not ("+ START + " > ? OR " + END + " < ?)" ,
+    			new String[] {Long.toString(end), Long.toString(start)}
     		);
     }
     
