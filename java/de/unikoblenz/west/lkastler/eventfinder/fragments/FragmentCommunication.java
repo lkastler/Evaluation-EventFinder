@@ -11,4 +11,7 @@ public interface FragmentCommunication {
 	public String TIMEPICKER = "timepicker";
 	public String DATEPICKER = "datepicker";
 	
+	public String EVENT_DIALOG = "eventdialog";
+	public String EVENT_LIST_DIALOG = "eventlistdialog";
+	
 }

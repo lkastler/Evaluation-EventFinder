@@ -10,5 +10,7 @@
     <string name="category">Kategorie</string>
     <string name="now">Jetzt</string>
     <string name="hint_search">Suche nach ...</string>
+    <string name="dummy">place holder</string>
+    <string name="close">Schliessen</string>
 
 </resources>

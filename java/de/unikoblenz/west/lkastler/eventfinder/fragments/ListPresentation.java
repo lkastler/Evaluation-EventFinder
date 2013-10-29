@@ -8,10 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import de.unikoblenz.west.lkastler.eventfinder.MainActivity;
 import de.unikoblenz.west.lkastler.eventfinder.R;
 import de.unikoblenz.west.lkastler.eventfinder.events.Event;
+import de.unikoblenz.west.lkastler.eventfinder.events.EventList;
 
 /**
  * Created by lkastler on 9/5/13.
@@ -58,6 +60,21 @@ public class ListPresentation extends ListFragment implements UpdatablePresentat
 	@Override
 	public void update() {
 		((EventAdapter)getListAdapter()).addAll(loadData());
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.ListFragment#onListItemClick(android.widget.ListView, android.view.View, int, long)
+	 */
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		EventListDialog d = new EventListDialog();
+		
+		d.setEventList(new EventList(adapter.list));
+		
+		//EventDialog d = new EventDialog();
+		//d.setEvent(adapter.getItem(position));
+		
+		d.show(getFragmentManager(), FragmentCommunication.EVENT_DIALOG);
 	}
     
     
