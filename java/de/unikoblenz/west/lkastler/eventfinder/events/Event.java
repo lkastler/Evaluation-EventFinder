@@ -125,4 +125,15 @@ public class Event {
 	public String getLocation() {
 		return location;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Event [id=" + id + ", title=" + title + ", artists=" + artists
+				+ ", venue=" + venue + ", start=" + start + ", end=" + end
+				+ ", latitude=" + latitude + ", longitude=" + longitude
+				+ ", category=" + category + ", location=" + location + "]";
+	}
 }
