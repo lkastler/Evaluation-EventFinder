@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import de.unikoblenz.west.lkastler.eventfinder.MainActivity;
 import de.unikoblenz.west.lkastler.eventfinder.events.Event;
+import de.unikoblenz.west.lkastler.eventfinder.events.EventList;
 
 public class MapPresentation extends MapFragment implements UpdatablePresentation {
 
@@ -49,13 +50,32 @@ public class MapPresentation extends MapFragment implements UpdatablePresentatio
 
 			@Override
 			public boolean onMarkerClick(Marker marker) {
-				return false;
+				
+				EventListDialog d = new EventListDialog();
+				
+				d.setEventList(findNearEvents(marker.getPosition().latitude, marker.getPosition().longitude));
+				
+				d.show(getFragmentManager(), FragmentCommunication.EVENT_LIST_DIALOG);
+				
+				return true;
 			}			
 		});
 		
 		return v;
 	}
 
+	protected EventList findNearEvents(double lat, double lng) {
+		EventList result = new EventList();
+		
+		// TODO: what is near?
+		for(Event ev : events) {
+			if(Math.abs(ev.getLatitude() - lat) < 0.05 && Math.abs(ev.getLongitude() - lng) < 0.05) {
+				result.add(ev);
+			}
+		}
+		
+		return result;
+	}
 	
 	/* (non-Javadoc)
 	 * @see android.app.Fragment#onResume()
@@ -90,10 +110,6 @@ public class MapPresentation extends MapFragment implements UpdatablePresentatio
     	    	
     	return main.findEvents(getActivity().getIntent().getExtras());
     }
-	
-	//EventListDialog d = new EventListDialog();
-	
-	//d.setEventList(new EventList(adapter.list));
 	
 	class EventDataObserver extends DataSetObserver {
 
