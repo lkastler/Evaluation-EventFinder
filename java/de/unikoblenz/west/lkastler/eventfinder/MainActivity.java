@@ -8,6 +8,7 @@ import de.unikoblenz.west.lkastler.eventfinder.data.SQLiteDatabaseHandler;
 import de.unikoblenz.west.lkastler.eventfinder.data.SQLiteDatabaseImporter;
 import de.unikoblenz.west.lkastler.eventfinder.events.Event;
 import de.unikoblenz.west.lkastler.eventfinder.fragments.ListPresentation;
+import de.unikoblenz.west.lkastler.eventfinder.fragments.MapPresentation;
 import de.unikoblenz.west.lkastler.eventfinder.fragments.SearchFragment;
 import android.os.Bundle;
 import android.app.Activity;
@@ -37,6 +38,7 @@ public class MainActivity extends Activity {
         
         fragments.add(0, new SearchFragment());
         fragments.add(1, new ListPresentation());
+        fragments.add(2, new MapPresentation());
         
         placeFragment(fragments.get(0), false);
     }
@@ -74,7 +76,7 @@ public class MainActivity extends Activity {
     // TODO: comment switchPresentation
     public void switchPresentation() {
     	Log.d(TAG, "switch presentation");
-    	placeFragment(fragments.get(1), true);
+    	placeFragment(fragments.get(2), true);
     	
     }
     public void placeFragment(Fragment f, boolean backStack) {

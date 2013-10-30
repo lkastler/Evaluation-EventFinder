@@ -1,0 +1,1 @@
+[{title:"test title", artists:"Leon Kastler", venue:"Uni Koblenz", start: 0, end: 10000, latitude:1.0, longitude:1.0, category:a, location:"City"} , {title:"test", artists:"Ansgar Scherp", venue:"Uni Mannheim", start: 0, end: 10000, latitude:20.0, longitude:1.0, category:b, location:"City"}]

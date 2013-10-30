@@ -149,7 +149,8 @@ public class SearchFragment extends Fragment implements DatePickerDialog.OnDateS
     	intent.putExtra(FragmentCommunication.LOCATION, location.getText());
     	intent.putExtra(FragmentCommunication.CATEGORY, (String)category.getSelectedItem());
     	intent.putExtra(FragmentCommunication.POINTINTIME, cal);
-    	intent.putExtra(FragmentCommunication.TIMEFRAME, (long)getActivity().getResources().getIntArray(R.array.time_frame_values)[timeFrame.getSelectedItemPosition()]);
+    	intent.putExtra(FragmentCommunication.TIMEFRAME, 
+    			(long)getActivity().getResources().getIntArray(R.array.time_frame_values)[timeFrame.getSelectedItemPosition()]);
     }
     
     private void updateDate() {

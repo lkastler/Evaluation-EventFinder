@@ -1,22 +1,23 @@
 package de.unikoblenz.west.lkastler.eventfinder.fragments;
 
-import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
 
 import de.unikoblenz.west.lkastler.eventfinder.R;
 import de.unikoblenz.west.lkastler.eventfinder.events.Event;
+import de.unikoblenz.west.lkastler.eventfinder.events.EventList;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class EventAdapter extends BaseAdapter {
+public class EventAdapter extends BaseAdapter implements Iterable<Event>{
 	
-	protected LinkedList<Event> list;
+	protected EventList list;
 
 	public EventAdapter() {
-		this.list = new LinkedList<Event>();
+		this.list = new EventList();
 	}
 	
 	public void addAll(List<Event> events) {
@@ -63,4 +64,8 @@ public class EventAdapter extends BaseAdapter {
 		return convertView;
 	}
 
+	@Override
+	public Iterator<Event> iterator() {
+		return list.iterator();
+	}	
 }

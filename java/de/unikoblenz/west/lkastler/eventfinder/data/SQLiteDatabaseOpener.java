@@ -28,8 +28,8 @@ public class SQLiteDatabaseOpener extends SQLiteOpenHelper {
                 SQLiteDatabaseHandler.TITLE + " string," +
                 SQLiteDatabaseHandler.START + " integer," +
                 SQLiteDatabaseHandler.END + " integer," +
-                SQLiteDatabaseHandler.LAT + " integer," +
-                SQLiteDatabaseHandler.LNG + " integer," +
+                SQLiteDatabaseHandler.LAT + " float," +
+                SQLiteDatabaseHandler.LNG + " float," +
                 SQLiteDatabaseHandler.ARTISTS + " string," +
                 SQLiteDatabaseHandler.VENUE + " string," +
                 SQLiteDatabaseHandler.CATEGORY + " string," +

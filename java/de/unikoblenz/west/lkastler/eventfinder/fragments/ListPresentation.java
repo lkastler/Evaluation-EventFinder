@@ -67,12 +67,9 @@ public class ListPresentation extends ListFragment implements UpdatablePresentat
 	 */
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		EventListDialog d = new EventListDialog();
 		
-		d.setEventList(new EventList(adapter.list));
-		
-		//EventDialog d = new EventDialog();
-		//d.setEvent(adapter.getItem(position));
+		EventDialog d = new EventDialog();
+		d.setEvent(adapter.getItem(position));
 		
 		d.show(getFragmentManager(), FragmentCommunication.EVENT_DIALOG);
 	}

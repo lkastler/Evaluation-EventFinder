@@ -13,8 +13,8 @@ public class Event {
     private String venue;
     private long start;
     private long end;
-    private long latitude;
-    private long longitude;
+    private double latitude;
+    private double longitude;
     private String category;
     private String location;
 
@@ -32,7 +32,7 @@ public class Event {
      * @param category - the category of this event.
      * @param location - the location of this event, like suburb.
      */
-    public Event(int id, String title, String artists, String venue, long start, long end, long latitude, long longitude, String category, String location) {
+    public Event(int id, String title, String artists, String venue, long start, long end, double latitude, double longitude, String category, String location) {
         this.id = id;
         this.title = title;
         this.artists = artists;
@@ -97,7 +97,7 @@ public class Event {
      * returns the latitude of this Event.
      * @return the latitude of this Event.
      */
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -105,7 +105,7 @@ public class Event {
      * returns the longitude of this Event.
      * @return the longitude of this Event.
      */
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 

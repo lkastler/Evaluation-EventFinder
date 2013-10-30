@@ -12,11 +12,9 @@ public class EventList extends LinkedList<Event> {
 
 	private static final long serialVersionUID = 1L;
 	
-	public EventList(EventList list) {
-		super(list);
-	}
+	public EventList() {super();}
+	
+	public EventList(EventList list) {super(list);}
 
-	public EventList(List<Event> list) {
-		super(list);
-	}
+	public EventList(List<Event> list) {super(list);}
 }
