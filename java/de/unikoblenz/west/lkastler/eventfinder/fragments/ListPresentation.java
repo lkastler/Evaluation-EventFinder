@@ -13,6 +13,7 @@ import android.widget.ListView;
 import de.unikoblenz.west.lkastler.eventfinder.MainActivity;
 import de.unikoblenz.west.lkastler.eventfinder.R;
 import de.unikoblenz.west.lkastler.eventfinder.events.Event;
+import de.unikoblenz.west.lkastler.eventfinder.events.EventAdapter;
 
 /**
  * Created by lkastler on 9/5/13.

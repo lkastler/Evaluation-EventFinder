@@ -1,6 +1,7 @@
 package de.unikoblenz.west.lkastler.eventfinder.fragments;
 
 import de.unikoblenz.west.lkastler.eventfinder.R;
+import de.unikoblenz.west.lkastler.eventfinder.events.EventAdapter;
 import de.unikoblenz.west.lkastler.eventfinder.events.EventList;
 import android.app.DialogFragment;
 import android.os.Bundle;

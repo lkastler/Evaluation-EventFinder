@@ -20,20 +20,25 @@ import de.unikoblenz.west.lkastler.eventfinder.MainActivity;
 import de.unikoblenz.west.lkastler.eventfinder.events.Event;
 import de.unikoblenz.west.lkastler.eventfinder.events.EventAdapter;
 import de.unikoblenz.west.lkastler.eventfinder.events.EventList;
+import de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderDataModel;
+import de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderDataModelListener;
 
-public class MapPresentation extends MapFragment implements UpdatablePresentation {
+public class TimesliderPresentation extends MapFragment implements UpdatablePresentation, TimesliderDataModelListener {
 
-	public static final String TAG = "MAP";
+	public static final String TAG = "TIMESLIDER";
 	
 	protected EventAdapter events = new EventAdapter();
 	
+	//protected TimesliderDataModel model;
+//	protected TimesliderDataControl control;
+	
+	//protected TimesliderView timeslider;
 	protected GoogleMap map;
 	
-	public MapPresentation() {
+	public TimesliderPresentation() {
 		super();
 		events.registerDataSetObserver(new EventDataObserver(this));
 	}
-
 
 	/* (non-Javadoc)
 	 * @see com.google.android.gms.maps.MapFragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -42,26 +47,38 @@ public class MapPresentation extends MapFragment implements UpdatablePresentatio
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = super.onCreateView(inflater, container, savedInstanceState);
+		//View v = inflater.inflate(R.layout.timeslider, container);
+
+//		model = new TimesliderDataModel();
+//		control = new TimesliderDataControl(this.getActivity(), model);
+//		
+//		timeslider = (TimesliderView) v.findViewById(R.id.timeslider);
+//		
+//		model.addListener(timeslider);
+//		
+//		timeslider.addListener(control);
 		
 		map = getMap();
 		
-		Log.d(TAG, "map=" + map.toString());
+		if(map != null) {
 		
-		map.setOnMarkerClickListener(new OnMarkerClickListener() {
-
-			@Override
-			public boolean onMarkerClick(Marker marker) {
-				
-				EventListDialog d = new EventListDialog();
-				
-				d.setEventList(findNearEvents(marker.getPosition().latitude, marker.getPosition().longitude));
-				
-				d.show(getFragmentManager(), FragmentCommunication.EVENT_LIST_DIALOG);
-				
-				return true;
-			}			
-		});
-		
+			Log.d(TAG, "map=" + map.toString());
+			
+			map.setOnMarkerClickListener(new OnMarkerClickListener() {
+	
+				@Override
+				public boolean onMarkerClick(Marker marker) {
+					
+					EventListDialog d = new EventListDialog();
+					
+					d.setEventList(findNearEvents(marker.getPosition().latitude, marker.getPosition().longitude));
+					
+					d.show(getFragmentManager(), FragmentCommunication.EVENT_LIST_DIALOG);
+					
+					return true;
+				}			
+			});
+		}
 		return v;
 	}
 
@@ -114,9 +131,9 @@ public class MapPresentation extends MapFragment implements UpdatablePresentatio
 	
 	class EventDataObserver extends DataSetObserver {
 
-		protected MapPresentation mapPresentation;
+		protected TimesliderPresentation mapPresentation;
 		
-		public EventDataObserver(MapPresentation mapPresentation) {
+		public EventDataObserver(TimesliderPresentation mapPresentation) {
 			super();
 			this.mapPresentation = mapPresentation;
 		}
@@ -131,4 +148,13 @@ public class MapPresentation extends MapFragment implements UpdatablePresentatio
 		
 	}
 	
+//	public TimesliderView getTimeslider() {
+//		return timeslider;
+//	}
+
+
+	@Override
+	public void notify(TimesliderDataModel sender) {
+		// TODO: modify EventList
+	}
 }

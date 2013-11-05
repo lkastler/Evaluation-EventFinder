@@ -10,6 +10,7 @@ import de.unikoblenz.west.lkastler.eventfinder.events.Event;
 import de.unikoblenz.west.lkastler.eventfinder.fragments.ListPresentation;
 import de.unikoblenz.west.lkastler.eventfinder.fragments.MapPresentation;
 import de.unikoblenz.west.lkastler.eventfinder.fragments.SearchFragment;
+import de.unikoblenz.west.lkastler.eventfinder.fragments.TimesliderPresentation;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Fragment;
@@ -40,7 +41,9 @@ public class MainActivity extends Activity {
         fragments.add(1, new ListPresentation());
         fragments.add(2, new MapPresentation());
         
-        placeFragment(fragments.get(0), false);
+        fragments.add(3, new TimesliderPresentation());
+        
+        placeFragment(fragments.get(3), false);
     }
 
     @Override
