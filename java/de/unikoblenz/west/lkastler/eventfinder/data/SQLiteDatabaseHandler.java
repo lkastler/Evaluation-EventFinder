@@ -62,9 +62,9 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
         LinkedList<String> items = new LinkedList<String>();
 
         // create query items
-        qe.add(evalSearchPhrase(bundle.getCharSequence(FragmentCommunication.SEARCH_PHRASE).toString()));
-        qe.add(evalLocation(bundle.getCharSequence(FragmentCommunication.LOCATION).toString()));
-        qe.add(evalCategory(bundle.getCharSequence(FragmentCommunication.CATEGORY).toString()));
+        qe.add(evalSearchPhrase(bundle.getCharSequence(FragmentCommunication.SEARCH_PHRASE)));
+        qe.add(evalLocation(bundle.getCharSequence(FragmentCommunication.LOCATION)));
+        qe.add(evalCategory(bundle.getCharSequence(FragmentCommunication.CATEGORY)));
         qe.add(evalTime(bundle.getLong(FragmentCommunication.POINTINTIME), 
         		bundle.getLong(FragmentCommunication.POINTINTIME) + bundle.getLong(FragmentCommunication.TIMEFRAME)));
         
@@ -81,12 +81,12 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
         return queryDB(q, items.toArray(new String[0]));
     }
     
-    private QueryElement evalSearchPhrase(String searchPhrase) {
-    	if(searchPhrase == null || searchPhrase.equals("") || searchPhrase.equals(" ")) {
+    private QueryElement evalSearchPhrase(CharSequence charSequence) {
+    	if(charSequence == null || charSequence.equals("")) {
     		return null; 
     	}
     	
-    	String[] tokens = searchPhrase.toLowerCase(Locale.getDefault()).trim().split(" ");
+    	String[] tokens = charSequence.toString().toLowerCase(Locale.getDefault()).trim().split(" ");
     	
     	return new QueryElement(
     			TABLE + " match ?",
@@ -94,25 +94,25 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
     		);
     }
     
-    private QueryElement evalLocation(String location) {
-    	if(location == null || location.equals("") || location.equals(" ")) {
+    private QueryElement evalLocation(CharSequence charSequence) {
+    	if(charSequence == null || charSequence.equals("")) {
     		return null;
     	}
     	
     	return new QueryElement(
     			LOCATION + " match ?",
-    			new String[] {"'*" + TextUtils.join("* OR *", location.toLowerCase(Locale.getDefault()).trim().split(" ")) + "*'"}
+    			new String[] {"'*" + TextUtils.join("* OR *", charSequence.toString().toLowerCase(Locale.getDefault()).trim().split(" ")) + "*'"}
     		);
     }
     
-    private QueryElement evalCategory(String category) {
-    	if(category == null || "".equals(category) || " ".equalsIgnoreCase(category)) {
+    private QueryElement evalCategory(CharSequence charSequence) {
+    	if(charSequence == null || "".equals(charSequence)) {
     		return null;
     	}
     	
     	return new QueryElement(
 				CATEGORY + " match ?",
-				new String[]{"'*" + TextUtils.join("* OR *", category.toLowerCase(Locale.getDefault()).trim().split(" ")) + "*'"}
+				new String[]{"'*" + TextUtils.join("* OR *", charSequence.toString().toLowerCase(Locale.getDefault()).trim().split(" ")) + "*'"}
 			);
     }
     

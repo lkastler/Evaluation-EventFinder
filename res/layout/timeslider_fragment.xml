@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:clickable="true">
 
-     <de.unikoblenz.west.lkastler.timeslider.TimesliderView
-         android:id="@+id/TestView"
+     <de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderView
+         android:id="@+id/timeView"
          android:layout_width="match_parent"
          android:layout_height="99dp"/>
 </LinearLayout>

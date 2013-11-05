@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.app.Fragment;
 import android.database.DataSetObserver;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -17,22 +18,19 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import de.unikoblenz.west.lkastler.eventfinder.MainActivity;
+import de.unikoblenz.west.lkastler.eventfinder.R;
 import de.unikoblenz.west.lkastler.eventfinder.events.Event;
 import de.unikoblenz.west.lkastler.eventfinder.events.EventAdapter;
 import de.unikoblenz.west.lkastler.eventfinder.events.EventList;
 import de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderDataModel;
 import de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderDataModelListener;
 
-public class TimesliderPresentation extends MapFragment implements UpdatablePresentation, TimesliderDataModelListener {
+public class TimesliderPresentation extends Fragment implements UpdatablePresentation, TimesliderDataModelListener {
 
-	public static final String TAG = "TIMESLIDER";
+	public static final String TAG = "TIMESLIDER PRESENTATION";
 	
 	protected EventAdapter events = new EventAdapter();
 	
-	//protected TimesliderDataModel model;
-//	protected TimesliderDataControl control;
-	
-	//protected TimesliderView timeslider;
 	protected GoogleMap map;
 	
 	public TimesliderPresentation() {
@@ -46,19 +44,9 @@ public class TimesliderPresentation extends MapFragment implements UpdatablePres
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = super.onCreateView(inflater, container, savedInstanceState);
-		//View v = inflater.inflate(R.layout.timeslider, container);
-
-//		model = new TimesliderDataModel();
-//		control = new TimesliderDataControl(this.getActivity(), model);
-//		
-//		timeslider = (TimesliderView) v.findViewById(R.id.timeslider);
-//		
-//		model.addListener(timeslider);
-//		
-//		timeslider.addListener(control);
-		
-		map = getMap();
+		View v = inflater.inflate(R.layout.timeslider_presentation, container, false); 
+			
+		map = ((MapFragment)getFragmentManager().findFragmentById(R.id.map)).getMap();
 		
 		if(map != null) {
 		

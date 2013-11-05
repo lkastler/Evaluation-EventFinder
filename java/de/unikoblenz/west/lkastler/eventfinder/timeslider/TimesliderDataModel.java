@@ -1,5 +1,6 @@
 package de.unikoblenz.west.lkastler.eventfinder.timeslider;
 
+import java.util.Calendar;
 import java.util.LinkedList;
 
 import android.util.Log;
@@ -67,12 +68,17 @@ public class TimesliderDataModel {
 	
 	public TimesliderDataModel() {}
 	
+	public TimesliderDataModel(Calendar date) {
+		pointInTime = date.getTimeInMillis();
+	}
+	
 	/**
 	 * add specified DataModelListener to listen on this DataModel.
 	 * @param l - DataModelListener to listen on this DataModel.
 	 */
 	public void addListener(TimesliderDataModelListener l) {
 		listeners.add(l);
+		
 		l.notify(this);
 	}
 	
