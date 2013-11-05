@@ -41,7 +41,9 @@ public class MainActivity extends Activity {
         fragments.add(1, new ListPresentation());
         fragments.add(2, new MapPresentation());
         
-        fragments.add(3, new TimesliderPresentation());
+        TimesliderPresentation tsp = new TimesliderPresentation();
+        
+        fragments.add(3, tsp);
         
         placeFragment(fragments.get(0), false);
     }
@@ -79,7 +81,7 @@ public class MainActivity extends Activity {
     // TODO: comment switchPresentation
     public void switchPresentation() {
     	Log.d(TAG, "switch presentation");
-    	placeFragment(fragments.get(3), true);
+    	placeFragment(fragments.get(2), true);
     	
     }
     public void placeFragment(Fragment f, boolean backStack) {

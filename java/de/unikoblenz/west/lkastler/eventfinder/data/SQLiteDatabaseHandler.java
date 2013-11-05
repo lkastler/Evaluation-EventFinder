@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -65,9 +66,11 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
         qe.add(evalSearchPhrase(bundle.getCharSequence(FragmentCommunication.SEARCH_PHRASE)));
         qe.add(evalLocation(bundle.getCharSequence(FragmentCommunication.LOCATION)));
         qe.add(evalCategory(bundle.getCharSequence(FragmentCommunication.CATEGORY)));
-        qe.add(evalTime(bundle.getLong(FragmentCommunication.POINTINTIME), 
-        		bundle.getLong(FragmentCommunication.POINTINTIME) + bundle.getLong(FragmentCommunication.TIMEFRAME)));
-        
+        /*qe.add(evalTime(
+        		(Calendar)(bundle.get(FragmentCommunication.POINTINTIME)), 
+        		bundle.getLong(FragmentCommunication.TIMEFRAME)
+        	));
+        */
         // create query list and items list
         for(QueryElement q: qe) {
         	if(q != null) {
@@ -82,7 +85,7 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
     }
     
     private QueryElement evalSearchPhrase(CharSequence charSequence) {
-    	if(charSequence == null || charSequence.equals("")) {
+    	if(charSequence == null || charSequence.length() == 0) {
     		return null; 
     	}
     	
@@ -95,7 +98,7 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
     }
     
     private QueryElement evalLocation(CharSequence charSequence) {
-    	if(charSequence == null || charSequence.equals("")) {
+    	if(charSequence == null || charSequence.length() == 0) {
     		return null;
     	}
     	
@@ -106,7 +109,7 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
     }
     
     private QueryElement evalCategory(CharSequence charSequence) {
-    	if(charSequence == null || "".equals(charSequence)) {
+    	if(charSequence == null || charSequence.length() == 0) {
     		return null;
     	}
     	
@@ -116,10 +119,13 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
 			);
     }
     
-    private QueryElement evalTime(long start, long end) {
-    	if(start == 0) {
+    private QueryElement evalTime(Calendar startPoint, long timeFrame) {
+    	if(startPoint == null) {
     		return null;
     	}
+    	
+    	long start = startPoint.getTimeInMillis(); 
+    	long end = start + timeFrame;
     	
     	return new QueryElement(
     			"not ("+ START + " > ? OR " + END + " < ?)" ,

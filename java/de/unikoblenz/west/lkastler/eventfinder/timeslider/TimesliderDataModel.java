@@ -60,11 +60,11 @@ public class TimesliderDataModel {
 			new TimeFrame("2w", HOUR*24*7 * 2)
 	};
 	
-	private LinkedList<TimesliderDataModelListener> listeners = new LinkedList<TimesliderDataModelListener>();
+	protected LinkedList<TimesliderDataModelListener> listeners = new LinkedList<TimesliderDataModelListener>();
 	
-	long pointInTime = 0;
+	private long pointInTime = 0;
 	
-	int currentId = 0;
+	private int currentId = 0;
 	
 	public TimesliderDataModel() {}
 	

@@ -6,13 +6,13 @@
     android:orientation="vertical" >
 
     <fragment
-        android:id="@+id/map"
+        android:id="@+id/map_fragment"
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
      <fragment
-         android:id="@+id/timeslider"
+         android:id="@+id/timeslider_fragment"
          android:name="de.unikoblenz.west.lkastler.eventfinder.fragments.TimesliderFragment"
          android:layout_width="match_parent"
          android:layout_height="99dp"

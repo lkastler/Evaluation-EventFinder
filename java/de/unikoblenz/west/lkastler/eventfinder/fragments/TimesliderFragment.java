@@ -24,6 +24,10 @@ public class TimesliderFragment extends Fragment implements TimesliderListener {
 	
 	public TimesliderFragment() {}
 	
+	public void setModel(TimesliderDataModel model) {
+		this.model = model;
+	}
+	
 	/* (non-Javadoc)
 	 * @see android.app.Fragment#onCreate(android.os.Bundle)
 	 */
@@ -59,5 +63,6 @@ public class TimesliderFragment extends Fragment implements TimesliderListener {
 		Log.d(TAG, "test");
 		
 	}
+	
 	
 }
