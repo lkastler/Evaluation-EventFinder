@@ -26,12 +26,14 @@ import de.unikoblenz.west.lkastler.eventfinder.R;
 import de.unikoblenz.west.lkastler.eventfinder.events.Event;
 import de.unikoblenz.west.lkastler.eventfinder.events.EventList;
 import de.unikoblenz.west.lkastler.eventfinder.events.TimesliderEventModel;
+import de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderDataControl;
 import de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderDataModel;
 import de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderDataModelListener;
 
 public class TimesliderPresentation extends Fragment implements UpdatablePresentation, TimesliderDataModelListener {
 
 	TimesliderEventModel model;
+	TimesliderDataControl control;
 	
 	public static final String TAG = "TIMESLIDER PRESENTATION";
 		
@@ -42,6 +44,8 @@ public class TimesliderPresentation extends Fragment implements UpdatablePresent
 		
 		model = new TimesliderEventModel();
 		model.addListener(this);
+		
+		control = new TimesliderDataControl(getActivity(), model);
 	}
 
 	/* (non-Javadoc)
@@ -54,7 +58,11 @@ public class TimesliderPresentation extends Fragment implements UpdatablePresent
 		
 		TimesliderFragment timeslider = (TimesliderFragment) getFragmentManager().findFragmentById(R.id.timeslider_fragment);
 		
-		map = ((MapFragment)getFragmentManager().findFragmentById(R.id.map)).getMap();
+		model.addListener(timeslider.timeslider);
+		
+		timeslider.timeslider.addListener(control);
+		
+		map = ((MapFragment)getFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
 		
 		if(map != null) {
 		
@@ -94,7 +102,10 @@ public class TimesliderPresentation extends Fragment implements UpdatablePresent
 	
 	public void dataChanged() {
 		if(map != null) {
+			map.clear();
 			Event e = null;
+			
+			Marker r = new Marker(null);
 			
 			Iterator<Event> it = model.getSelected();
 						
@@ -106,6 +117,7 @@ public class TimesliderPresentation extends Fragment implements UpdatablePresent
 					.title(e.getTitle())
 				);
 			}
+			e = null;
 			
 			it = model.getUnselected();
 			
@@ -120,7 +132,7 @@ public class TimesliderPresentation extends Fragment implements UpdatablePresent
 			}
 		}
 	}
-	
+		
 	@Override
 	public void update() {
 		model.setAllEvents(loadData());
@@ -155,7 +167,8 @@ public class TimesliderPresentation extends Fragment implements UpdatablePresent
 
 	@Override
 	public void notify(TimesliderDataModel sender) {
-		
+		Log.d(TAG, "notified by data model");
+		dataChanged();
 	}
 
 	/*

@@ -3,6 +3,8 @@ package de.unikoblenz.west.lkastler.eventfinder.events;
 import java.util.Iterator;
 import java.util.List;
 
+import android.util.Log;
+
 import de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderDataModel;
 
 public class TimesliderEventModel extends TimesliderDataModel {
@@ -42,17 +44,29 @@ public class TimesliderEventModel extends TimesliderDataModel {
 		selected.clear();
 		unselected.clear();
 		
+		Log.d(TAG, "pit: " + getPointInTime());
+		
 		for(Event ev : all) {
 			if(ev.getEnd() < getPointInTime() 
 					|| ev.getStart() > getPointInTime() + getFrameSize()) {
+				Log.d(TAG, "out: " + ev.getTitle());
 				unselected.add(ev);
 			}
 			else {
+				Log.d(TAG, "in : " + ev.getTitle());
 				selected.add(ev);
 			}
 		}
 		
-		notifyAll();
+		notifyListeners();
+	}
+
+	/* (non-Javadoc)
+	 * @see de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderDataModel#onPointInTimeChange()
+	 */
+	@Override
+	protected void onPointInTimeChange() {
+		updateSelection();
 	}
 
 }

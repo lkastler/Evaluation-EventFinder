@@ -85,7 +85,7 @@ public class TimesliderDataModel {
 	/**
 	 * calls all listeners for changes.
 	 */
-	private void notifyListeners() {
+	protected void notifyListeners() {
 		for(TimesliderDataModelListener l : listeners) {
 			l.notify(this);
 		}
@@ -99,8 +99,12 @@ public class TimesliderDataModel {
 		Log.i(TAG, "set pit: " + newTime);
 		pointInTime = newTime;
 		
+		onPointInTimeChange();
+		
 		notifyListeners();
 	}
+	
+	protected void onPointInTimeChange() {}
 	
 	/**
 	 * returns the point in time.
