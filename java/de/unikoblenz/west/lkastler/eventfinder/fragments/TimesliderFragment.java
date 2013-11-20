@@ -4,20 +4,21 @@ import java.util.Calendar;
 
 import de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderDataControl;
 import de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderDataModel;
+import de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderDataModelListener;
 import de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderListener;
 import de.unikoblenz.west.lkastler.eventfinder.R;
 import de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderView;
 import de.unikoblenz.west.lkastler.eventfinder.timeslider.commands.TimesliderEvent;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class TimesliderFragment extends Fragment implements TimesliderListener {
+public class TimesliderFragment extends Fragment implements TimesliderListener, TimesliderDataModelListener {
 
-	private static final String TAG = "TIMESLIDER FRAGMENT";
+	//private static final String TAG = "TIMESLIDER FRAGMENT";
+	
 	TimesliderView timeslider;
 	TimesliderDataModel model;
 	TimesliderDataControl control;
@@ -60,9 +61,12 @@ public class TimesliderFragment extends Fragment implements TimesliderListener {
 
 	@Override
 	public void notify(TimesliderView sender, TimesliderEvent event) {
-		Log.d(TAG, "test");
-		
+		// TODO: stub
 	}
 	
-	
+	@Override
+	public void notify(TimesliderDataModel sender) {
+		timeslider.notify(sender);
+	}
+
 }

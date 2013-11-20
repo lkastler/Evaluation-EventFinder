@@ -3,4 +3,8 @@
         android:title="@string/load_data"
         android:orderInCategory="100"
         android:showAsAction="never"/>
+    <item android:id="@+id/select_vis"
+        android:title="@string/select_vis"
+        android:orderInCategory="100"
+        android:showAsAction="never"/>
 </menu>

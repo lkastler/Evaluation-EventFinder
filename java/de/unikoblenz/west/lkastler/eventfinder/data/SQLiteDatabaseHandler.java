@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -119,7 +118,8 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
 			);
     }
     
-    private QueryElement evalTime(Calendar startPoint, long timeFrame) {
+    /* NOT USED MOMENTARILY
+      private QueryElement evalTime(Calendar startPoint, long timeFrame) {
     	if(startPoint == null) {
     		return null;
     	}
@@ -131,7 +131,8 @@ public class SQLiteDatabaseHandler extends AbstractDatabase {
     			"not ("+ START + " > ? OR " + END + " < ?)" ,
     			new String[] {Long.toString(end), Long.toString(start)}
     		);
-    }
+    	}
+    */
     
     private List<Event> queryDB(String query, String[] items) {
         Log.d(TAG, "q=" +query + ", i=" + Arrays.toString(items));

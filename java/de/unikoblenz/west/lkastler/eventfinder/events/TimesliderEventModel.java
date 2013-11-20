@@ -12,10 +12,10 @@ public class TimesliderEventModel extends TimesliderDataModel {
 	protected EventList all = new EventList();
 	protected EventList selected = new EventList();
 	protected EventList unselected = new EventList();
+	protected EventList updatedSelected = new EventList();
+	protected EventList updatedUnselected = new EventList();
 	
 	public void setAllEvents(List<Event> events) {
-		all = new EventList(events);
-		
 		updateSelection();
 	}
 
@@ -25,6 +25,14 @@ public class TimesliderEventModel extends TimesliderDataModel {
 	
 	public Iterator<Event> getUnselected() {
 		return unselected.iterator();
+	}
+	
+	public Iterator<Event> getUpdatedSelected() {
+		return updatedSelected.iterator();
+	}
+	
+	public Iterator<Event> getUpdatedUnselected() {
+		return updatedUnselected.iterator();
 	}
 	
 	public EventList findNearestEvents(double lat, double lng) {
@@ -41,24 +49,44 @@ public class TimesliderEventModel extends TimesliderDataModel {
 	}
 	
 	private void updateSelection() {
-		selected.clear();
-		unselected.clear();
+		updatedSelected.clear();
+		updatedUnselected.clear();
 		
 		Log.d(TAG, "pit: " + getPointInTime());
 		
 		for(Event ev : all) {
 			if(ev.getEnd() < getPointInTime() 
 					|| ev.getStart() > getPointInTime() + getFrameSize()) {
-				Log.d(TAG, "out: " + ev.getTitle());
-				unselected.add(ev);
+				if(!unselected.contains(ev)) {
+					Log.d(TAG, "out: " + ev.getTitle());					
+					
+					moveSelectedToUnselected(ev);
+				}
 			}
 			else {
-				Log.d(TAG, "in : " + ev.getTitle());
-				selected.add(ev);
+				if(!selected.contains(ev)) {
+					Log.d(TAG, "in : " + ev.getTitle());
+				
+					moveUnselectedToSelected(ev);
+				}
 			}
 		}
 		
+		Log.d(TAG, "sizes: " + all.size() + ", " + updatedSelected.size() + ", " + updatedUnselected.size());
+		
 		notifyListeners();
+	}
+	
+	private void moveSelectedToUnselected(Event event) {
+		unselected.add(event);
+		selected.remove(event);
+		updatedUnselected.add(event);
+	}
+	
+	private void moveUnselectedToSelected(Event event) {
+		selected.add(event);
+		unselected.remove(event);
+		updatedSelected.add(event);
 	}
 
 	/* (non-Javadoc)

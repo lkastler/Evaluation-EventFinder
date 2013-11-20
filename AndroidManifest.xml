@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="16"
-        android:targetSdkVersion="16" />
+        android:minSdkVersion="18"
+        android:targetSdkVersion="18" />
 	<permission 
 	    android:name="de.unikoblenz.west.lkastler.eventfinder.permission.MAPS_RECEIVE"
 	    android:protectionLevel="signature"/>

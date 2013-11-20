@@ -12,5 +12,9 @@
     <string name="hint_search">Suche nach ...</string>
     <string name="dummy">place holder</string>
     <string name="close">Schliessen</string>
+    <string name="select_vis">Select Visualisation</string>
+    <string name="select_list">List</string>
+    <string name="select_map">Map</string>
+    <string name="select_timeslider">Timeslider</string>
 
 </resources>

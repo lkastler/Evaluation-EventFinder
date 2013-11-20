@@ -13,7 +13,8 @@ public interface FragmentCommunication {
 	
 	public String EVENT_DIALOG = "eventdialog";
 	public String EVENT_LIST_DIALOG = "eventlistdialog";
-	
+
 	public String TIMESLIDER_DIALOG = "timesliderdialog";
-	
+
+	public String VISUALIZATION_DIALOG = "visdialog";
 }

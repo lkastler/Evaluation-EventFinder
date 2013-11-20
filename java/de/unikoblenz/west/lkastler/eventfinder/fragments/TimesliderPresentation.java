@@ -1,5 +1,6 @@
 package de.unikoblenz.west.lkastler.eventfinder.fragments;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import android.database.DataSetObserver;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -32,8 +34,13 @@ import de.unikoblenz.west.lkastler.eventfinder.timeslider.TimesliderDataModelLis
 
 public class TimesliderPresentation extends Fragment implements UpdatablePresentation, TimesliderDataModelListener {
 
+	public static BitmapDescriptor MARKER_SELECTED; 
+	public static BitmapDescriptor MARKER_UNSELECTED;
+	
 	TimesliderEventModel model;
 	TimesliderDataControl control;
+	
+	HashMap<Event, Marker> markers;
 	
 	public static final String TAG = "TIMESLIDER PRESENTATION";
 		
@@ -41,6 +48,8 @@ public class TimesliderPresentation extends Fragment implements UpdatablePresent
 	
 	public TimesliderPresentation() {
 		super();
+	
+		markers = new HashMap<Event, Marker>();
 		
 		model = new TimesliderEventModel();
 		model.addListener(this);
@@ -56,9 +65,9 @@ public class TimesliderPresentation extends Fragment implements UpdatablePresent
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.timeslider_presentation, container, false);
 		
-		TimesliderFragment timeslider = (TimesliderFragment) getFragmentManager().findFragmentById(R.id.timeslider_fragment);
+		TimesliderFragment timeslider = (TimesliderFragment)getFragmentManager().findFragmentById(R.id.timeslider_fragment);
 		
-		model.addListener(timeslider.timeslider);
+		model.addListener(timeslider);
 		
 		timeslider.timeslider.addListener(control);
 		
@@ -66,6 +75,9 @@ public class TimesliderPresentation extends Fragment implements UpdatablePresent
 		
 		if(map != null) {
 		
+			MARKER_SELECTED = BitmapDescriptorFactory.defaultMarker();
+			MARKER_UNSELECTED  = BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher);
+			
 			Log.d(TAG, "map=" + map.toString());
 			
 			map.setOnMarkerClickListener(new OnMarkerClickListener() {
@@ -102,33 +114,34 @@ public class TimesliderPresentation extends Fragment implements UpdatablePresent
 	
 	public void dataChanged() {
 		if(map != null) {
-			map.clear();
-			Event e = null;
 			
-			Marker r = new Marker(null);
+			updateMarkers(model.getUpdatedSelected(), MARKER_SELECTED);
 			
-			Iterator<Event> it = model.getSelected();
-						
-			while(it.hasNext()) {
-				 e = it.next();
-				
-				map.addMarker(new MarkerOptions()
-					.position(new LatLng(e.getLatitude(), e.getLongitude()))
-					.title(e.getTitle())
-				);
+			updateMarkers(model.getUpdatedUnselected(), MARKER_UNSELECTED);
+		}
+	}
+	
+	private void updateMarkers(Iterator<Event> it, BitmapDescriptor icon) {
+		Event e;
+		
+		while(it.hasNext()) {
+			 e = it.next();
+			 
+			 Log.d(TAG, e.toString());
+			 
+			if(markers.containsKey(e)) {
+				Marker selected = markers.get(e);
+				selected.setIcon(icon);
 			}
-			e = null;
-			
-			it = model.getUnselected();
-			
-			while(it.hasNext()) {
-				 e = it.next();
+			else {
 				
-				map.addMarker(new MarkerOptions()
+				Marker m = map.addMarker(new MarkerOptions()
 					.position(new LatLng(e.getLatitude(), e.getLongitude()))
 					.title(e.getTitle())
-					.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher))
+					.icon(icon)
 				);
+				
+				markers.put(e,m);
 			}
 		}
 	}
@@ -162,7 +175,6 @@ public class TimesliderPresentation extends Fragment implements UpdatablePresent
 		public void onChanged() {
 			mapPresentation.dataChanged();
 		}
-		
 	}
 
 	@Override
@@ -178,15 +190,20 @@ public class TimesliderPresentation extends Fragment implements UpdatablePresent
 	 */
 	@Override
 	public void onDestroyView() {
+		try {
+			FragmentManager mgr = this.getChildFragmentManager();
+				
+			FragmentTransaction transaction = mgr.beginTransaction();
+			//transaction = transaction.remove(mgr.findFragmentById(R.id.timeslider_fragment));
+			
+			MapFragment map = (MapFragment)mgr.findFragmentById(R.id.map);
+			transaction = transaction.remove(map);
+				
+			transaction.commit();
+		}
+		catch(Exception e) {
+			Log.e(TAG, "catched:", e);
+		}
 		super.onDestroyView();
-		
-		FragmentManager mgr = getFragmentManager();
-		
-		FragmentTransaction transaction = mgr.beginTransaction();
-		
-		transaction = transaction.remove(mgr.findFragmentById(R.id.timeslider_fragment));
-		transaction = transaction.remove(mgr.findFragmentById(R.id.map));
-		
-		transaction.commit();
 	}
 }
